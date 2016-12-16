@@ -1,0 +1,10 @@
+{
+    "scripts": {
+        "test":"mocha ./test/test.js"
+    },
+    "dependencies": {
+      "mongoose":"4.7.2"  
+    },"devDependencies": {
+        "mocha":"3.2.0"
+    }
+}
