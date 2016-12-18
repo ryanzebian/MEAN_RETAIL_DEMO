@@ -11,18 +11,15 @@ function setupDB(wagner) {
     var User =
         mongoose.model('User', require('./user', 'users'));
     var models = {
-        'Category': Category,
-        'Product': Product,
-        'User': User
+        Category: Category,
+        Product: Product,
+        User: User
     };
 
     //To ensure DRY-Principle
     _.forEach(models, function (value, key) {
         wagner.factory(key, function () {
             return value;
-        });
-        wagner.factory('Test',function(){
-            return function(){console.log('Test was Called!')};
         });
     });
     return models;

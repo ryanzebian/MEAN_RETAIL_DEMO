@@ -6,7 +6,7 @@ var categorySchema = {
         type: String,
         ref: 'Category'
     },
-    anscetors: [{
+    ancestors: [{
         type: String,
         ref: 'Category'
     }]
