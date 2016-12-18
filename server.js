@@ -1,25 +1,10 @@
-var mongoose = require("mongoose");
-mongoose.Promise = Promise;
-const connectionString = "mongodb://localhost:27017/test";
+var wagner = require('wagner-core');
+var express = require('express');
 
-mongoose.connect(connectionString,function(error){
-    if(error){
-        console.log(error);
-        process.exit(1);
-    }
-});
+require('./schemas/model')(wagner);
 
+var app = express();
 
-var Product =  mongoose.model("Product",require('./schemas/product'),'products');
-
-var product = new Product({name:'Sohat'});
-product.price.amount = 500;
-product.price.currency = 'LBP';
-
-product.save(function(error,product){
-    if(error){
-        console.log(error);
-    }
-    console.log(product);
-    process.exit(1);
-});
+app.use('/api/v1/',require('./api')(wagner));
+app.listen(3000);
+console.log('Listening to Port 3000!');

@@ -1,10 +1,17 @@
 {
-    "scripts": {
-        "test":"mocha ./test/test.js"
-    },
-    "dependencies": {
-      "mongoose":"4.7.2"  
-    },"devDependencies": {
-        "mocha":"3.2.0"
-    }
+  "scripts": {
+    "test": "mocha ./test/test.js",
+    "test-api": "mocha ./test/apiTest.js"
+  },
+  "dependencies": {
+    "express": "4.14.0",
+    "http-status": "0.2.3",
+    "mongoose": "4.7.2",
+    "underscore": "1.8.3",
+    "wagner-core": "0.2.0"
+  },
+  "devDependencies": {
+    "superagent": "3.3.1",
+    "mocha": "3.2.0"
+  }
 }
