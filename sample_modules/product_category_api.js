@@ -3,13 +3,12 @@ var status = require('http-status');
 var bodyparser = require('body-parser');
 module.exports = function (wagner) {
     var api = express.Router();
-    api.use(bodyparser.json());
-
+    api.use(bodyparser);
     //User Cart API
     api.put('/me/cart', wagner.invoke(function (User) {
         return function (req, res) {
             try {
-                var cart = req.body.data.cart;
+                var cart = req.body.cart;
             } catch (e) {
                 return res.
                     status(status.BAD_REQUEST).
@@ -22,7 +21,7 @@ module.exports = function (wagner) {
                         status(status.INTERNAL_SERVER_ERROR).
                         json({ error: error.toString() });
                 }
-                return res.json({ user: user });
+                return res.json({user:user});
             });
         };
     }));
@@ -36,6 +35,43 @@ module.exports = function (wagner) {
             path: 'data.cart.product', model: 'Product'
         }, handleOne.bind(null, 'user', res));
     });
+    //Product API
+    api.get('/product/id/:id', wagner.invoke(function (Product) {
+        return function (req, res) {
+            Product.findOne({ _id: req.params.id }, handleOne.bind(null, 'product', res));
+        }
+    }));
+
+    api.get('/product/category/:id', wagner.invoke(function (Product) {
+        return function (req, res) {
+            var sort = { name: 1 };
+            if (req.query.price === "1") {
+                sort = { 'internal.approximateUSD': 1 };
+            }
+            else if (req.query.price === '-1') {
+                sort = { 'internal.approximateUSD': -1 };
+            }
+            Product.find({ 'category.ancestors': req.params.id }).
+                sort(sort).
+                exec(handleMany.bind(null, 'products', res));
+        };
+    }
+    ));
+
+    //Category API
+    api.get('/category/id/:id', wagner.invoke(function (Category) {
+        return function (req, res) {
+            Category.findOne({ _id: req.params.id }, handleOne.bind(null, 'category', res));
+        }
+    }));
+
+    api.get('/category/parent/:id', wagner.invoke(function (Category) {
+        return function (req, res) {
+            Category.find({ parent: req.params.id }).
+                sort({ _id: 1 }).
+                exec(handleMany.bind(null, 'categories', res));
+        }
+    }));
     return api;
 }
 
