@@ -8,9 +8,11 @@
     "express": "4.14.0",
     "express-session": "1.14.2",
     "http-status": "0.2.3",
+    "mocha": "^3.2.0",
     "mongoose": "4.7.3",
     "passport": "0.3.2",
     "passport-facebook": "2.1.1",
+    "stripe": "^4.14.0",
     "underscore": "1.8.3",
     "wagner-core": "0.2.0"
   },

@@ -9,10 +9,7 @@ function setupAuth(User, app) {
 
     passport.deserializeUser(function (id, done) {
         User.
-            findOne({ _id: id },function(err,user){
-                done(user);
-            })
-            
+            findOne({ _id: id }).exec(done);
     });
     //Facebook Specific
     passport.use(new FacebookStrategy(
@@ -20,7 +17,7 @@ function setupAuth(User, app) {
             clientID: process.env.FACEBOOK_CLIENT_ID,
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
             callbackURL: 'http://localhost:3000/auth/facebook/callback',
-             profileFields: ['id', 'displayName', 'photos', 'email']
+            profileFields: ['id', 'displayName', 'photos', 'email']
         },
         function (acessToken, refreshToken, profile, done) {
             if (!profile.emails || !profile.emails.length) {
