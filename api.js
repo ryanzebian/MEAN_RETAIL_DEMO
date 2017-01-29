@@ -5,7 +5,6 @@ var _ = require('underscore');
 module.exports = function (wagner) {
     var api = express.Router();
     api.use(bodyparser.json());
-
     //User Cart API
     api.put('/me/cart', wagner.invoke(function (User) {
         return function (req, res) {
@@ -38,7 +37,19 @@ module.exports = function (wagner) {
             path: 'data.cart.product', model: 'Product'
         }, handleOne.bind(null, 'user', res));
     });
-
+    api.get('/product/text/:query', wagner.invoke(function (Product) {
+        return function (req, res) {
+            Product.
+                find(
+                { $text: { $search: req.params.query } },
+                { score: { $meta: 'textScore' } }).
+                sort( { score: { $meta: 'textScore'}}).
+                limit(10).
+                exec(handleMany.bind(null, 'products', res));
+                
+        }
+        
+    }));
     api.post('/checkout', wagner.invoke(function (User, Stripe) {
         return function (req, res) {
             if (!req.user) {

@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "test": "mocha ./test/test.js",
-    "test-api": "mocha ./test/apiTest.js"
+    "test": "mocha ./test/apiTest.js"
   },
   "dependencies": {
     "body-parser": "1.15.2",

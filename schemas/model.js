@@ -4,15 +4,16 @@ var _ = require("underscore");
 function setupDB(wagner) {
     mongoose.connect('mongodb://localhost:27017/test');
     mongoose.Promise = Promise;
+
+    wagner.factory('db', function () { return mongoose; });
+
     var Category =
         mongoose.model('Category', require('./category'), 'categories');
-    var Product =
-        mongoose.model('Product', require('./product', 'products'));
     var User =
         mongoose.model('User', require('./user', 'users'));
+
     var models = {
         Category: Category,
-        Product: Product,
         User: User
     };
 
@@ -22,6 +23,7 @@ function setupDB(wagner) {
             return value;
         });
     });
+    wagner.factory('Product', require('./product.js'));
     return models;
 }
 module.exports = setupDB;
