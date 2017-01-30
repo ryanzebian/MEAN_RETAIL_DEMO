@@ -1,0 +1,39 @@
+<html ng-app="myApp">
+
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js">
+    </script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js">
+</script>
+<script type="text/javascript">
+
+    var app = angular.module('myApp', ['ng', 'ngRoute']);
+
+    app.config(function ($routeProvider) {
+        $routeProvider.
+            when('/', {
+                template: '<h1> HomePage</h1> <a ng-href="#/about">About</a> <div><counter-directive></counter-directive></div>'
+            }).when('/about', {
+                template: '<a ng-href="#/"> Back to Home Page</a> <counter-directive></counter-directive>'
+            });
+    });
+    app.directive('counterDirective', function () {
+        return {
+            controller: 'MyController',
+            template: '<div ng-controller="MyController"' +
+            '   ng-click="counter = counter + 1">' +
+            'You\'ve clicked this div  {{counter}} times ' +
+            '</div>'
+        }
+    });
+    app.controller('MyController', function ($scope) {
+        $scope.counter = 0;
+    });
+</script>
+</head>
+
+<body>
+    <div ng-view></div>
+</body>
+
+</html>
