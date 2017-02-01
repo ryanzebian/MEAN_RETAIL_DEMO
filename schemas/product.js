@@ -46,4 +46,5 @@ module.exports = function (db, fx) {
 
     schema.set('toObject', { virtuals: true });
     schema.set('toJSON', { virtuals: true });
-}
+    return db.model('Product', schema, 'products');
+};
